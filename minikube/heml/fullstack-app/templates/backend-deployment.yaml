@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: {{ .Values.backend.image }}
+        ports:
+        - containerPort: {{ .Values.backend.port }}
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://{{ .Values.backend.db.host }}:{{ .Values.backend.db.port }}/sampledb?allowPublicKeyRetrieval=true&useSSL=false"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: {{ .Values.backend.db.username }}
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: {{ .Values.backend.db.password }}
+        - name: DB_HOST
+          value: {{ .Values.backend.db.host }}
+        - name: DB_PORT
+          value: "{{ .Values.backend.db.port }}"
+        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          value: "update"
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: "com.mysql.cj.jdbc.Driver"
+        - name: SPRING_JPA_SHOW_SQL
+          value: "true"
+

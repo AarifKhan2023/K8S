@@ -1,0 +1,19 @@
+frontend:
+  image: aarif2khan/k8s-frontend
+  port: 3000
+  nodePort: 30001
+
+backend:
+  image: aarif2khan/k8s-backend:latest
+  port: 8080
+  nodePort: 30002
+  db:
+    host: mysql-service
+    port: 3306
+    username: root
+    password: Khan@123
+
+mysql:
+  image: mysql:5.7
+  port: 3306
+  rootPassword: Khan@123
